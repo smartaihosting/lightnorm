@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin (Local)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .form-input {
+            width: 100%;
+            border-radius: 0.375rem;
+            border: 1px solid #D1D5DB;
+            padding: 0.5rem 0.75rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            color: white;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-primary { background-color: #2563EB; }
+        .btn-primary:hover { background-color: #1D4ED8; }
+        .btn-danger { background-color: #DC2626; }
+        .btn-danger:hover { background-color: #B91C1C; }
+        .btn:disabled { background-color: #9CA3AF; cursor: not-allowed; }
+        
+        /* Simple spinner */
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="h-full antialiased p-4 md:p-8 text-gray-900">
+
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Portfolio Admin Panel (Local)</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Column 1: Add New Photo -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Add New Photo</h2>
+                <form id="add-photo-form" class="space-y-4">
+                    <div>
+                        <label for="imageFile" class="block text-sm font-medium text-gray-700">Photo Upload</label>
+                        <input type="file" id="imageFile" class="form-input file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" accept="image/png, image/jpeg, image/gif" required>
+                    </div>
+                    <div>
+                        <label for="headline" class="block text-sm font-medium text-gray-700">Headline</label>
+                        <input type="text" id="headline" class="form-input" required>
+                    </div>
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700">Category (e.g., "TRAVEL, LANDSCAPE")</label>
+                        <input type="text" id="category" class="form-input">
+                    </div>
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description (Use double-enters for paragraphs)</label>
+                        <textarea id="description" rows="5" class="form-input"></textarea>
+                    </div>
+                    <div>
+                        <label for="photoCredit" class="block text-sm font-medium text-gray-700">Photo Credit</label>
+                        <input type="text" id="photoCredit" class="form-input" value="Ruchira Opatha">
+                    </div>
+                     <div>
+                        <label for="photographerName" class="block text-sm font-medium text-gray-700">Photographer Name</label>
+                        <input type="text" id="photographerName" class="form-input" value="Ruchira Opatha Photography">
+                    </div>
+                    <div>
+                        <label for="techInfo" class="block text-sm font-medium text-gray-700">Tech Info (One item per line)</label>
+                        <textarea id="techInfo" rows="4" class="form-input" placeholder="Nikon D850&#10;85mm f/1.8&#10;ISO 800, f/2.8, 1/160s"></textarea>
+                    </div>
+                    
+                    <button type="submit" id="submit-button" class="btn btn-primary w-full">
+                        Add Photo
+                    </button>
+                    <div id="loading-spinner" class="hidden text-center">
+                        <p id="loading-text" class="text-blue-600">Converting image and saving... please wait.</p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Column 2: Existing Photos -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Existing Photos</h2>
+                <div id="existing-photos-list" class="space-y-4">
+                    <p id="loading-photos">Loading existing photos...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local Script -->
+    <script type="module">
+        // --- Config ---
+        const PHOTOS_KEY = 'myPortfolioPhotos';
+
+        // --- UI Elements ---
+        const form = document.getElementById('add-photo-form');
+        const submitButton = document.getElementById('submit-button');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const loadingText = document.getElementById('loading-text');
+        const photoListEl = document.getElementById('existing-photos-list');
+        const loadingPhotosEl = document.getElementById('loading-photos');
+
+        /**
+         * Initialize the admin panel
+         */
+        function initAdmin() {
+            form.addEventListener('submit', handleAddPhoto);
+            loadPhotosFromLocalStorage();
+        }
+
+        /**
+         * Load and display the list of photos from localStorage
+         */
+        function loadPhotosFromLocalStorage() {
+            loadingPhotosEl.classList.add('hidden');
+            
+            // Clear list
+            const existingItems = photoListEl.querySelectorAll('.photo-item');
+            existingItems.forEach(item => item.remove());
+
+            const photos = getPhotos();
+
+            if (photos.length === 0) {
+                loadingPhotosEl.textContent = 'No photos uploaded yet.';
+                loadingPhotosEl.classList.remove('hidden');
+                return;
+            }
+
+            // Sort by timestamp (newest first)
+            photos.sort((a, b) => b.timestamp - a.timestamp);
+
+            photos.forEach((photo) => {
+                const div = document.createElement('div');
+                div.className = "photo-item flex items-center justify-between p-3 bg-gray-100 rounded-md";
+                div.innerHTML = `
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <img src="${photo.imageUrl}" alt="${photo.headline}" class="w-16 h-12 object-cover rounded-md bg-gray-200 flex-shrink-0">
+                        <span class="font-medium text-sm truncate">${photo.headline}</span>
+                    </div>
+                    <button class="btn btn-danger btn-sm flex-shrink-0" data-id="${photo.id}">Delete</button>
+                `;
+                
+                // Add delete button listener
+                div.querySelector('button').addEventListener('click', handleDeletePhoto);
+                
+                photoListEl.appendChild(div);
+            });
+        }
+
+        /**
+         * Handle Form Submission for Adding a New Photo
+         */
+        async function handleAddPhoto(e) {
+            e.preventDefault();
+
+            // Get form data
+            const file = document.getElementById('imageFile').files[0];
+            const headline = document.getElementById('headline').value;
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            const photoCredit = document.getElementById('photoCredit').value;
+            const photographerName = document.getElementById('photographerName').value;
+            const techInfo = document.getElementById('techInfo').value;
+
+            if (!file) {
+                console.error("Please select an image file to upload.");
+                return;
+            }
+
+            // Show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<div class="spinner"></div>Resizing...`;
+            loadingText.textContent = "Resizing & converting image... please wait.";
+            loadingSpinner.classList.remove('hidden');
+
+            try {
+                // 1. Resize Image and Convert to Base64 Data URL
+                // We resize to a fixed 1200x800 rectangle and compress as a JPEG.
+                const dataUrl = await resizeImage(file, 1200, 800, 0.85);
+
+                // 2. Prepare data
+                const techInfoArray = techInfo.split('\n').filter(line => line.trim() !== '');
+                const timestamp = Date.now();
+                
+                const photoData = {
+                    id: timestamp, // Use timestamp as a simple unique ID
+                    imageUrl: dataUrl, // Use the new Base64 Data URL
+                    headline: headline,
+                    category: category,
+                    description: description,
+                    photoCredit: photoCredit,
+                    photographerName: photographerName,
+                    techInfo: techInfoArray,
+                    timestamp: timestamp
+                };
+
+                // 3. Save to localStorage
+                const photos = getPhotos();
+                photos.push(photoData);
+                localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos));
+
+                // 4. Reset form and reload list
+                form.reset();
+                console.log("Photo added successfully!");
+                loadPhotosFromLocalStorage(); // Reload the list
+
+            } catch (error) {
+                console.error("Error adding photo:", error);
+            } finally {
+                // Hide loading state
+                submitButton.disabled = false;
+                submitButton.innerHTML = `Add Photo`;
+                loadingSpinner.classList.add('hidden');
+                loadingText.textContent = "Converting image and saving... please wait."; // Reset text
+            }
+        }
+
+        /**
+         * Handle Photo Deletion
+         */
+        function handleDeletePhoto(e) {
+            const button = e.target;
+            const id = button.dataset.id;
+            
+            if (!id) {
+                console.error("Error: Missing photo ID.");
+                return;
+            }
+
+            // No window.confirm, so we delete directly.
+            
+            button.disabled = true;
+            button.innerHTML = `<div class="spinner"></div>`;
+
+            try {
+                let photos = getPhotos();
+                // Filter out the photo to be deleted
+                photos = photos.filter(p => p.id != id); // Use != for type coercion
+                
+                // Save the new array back to localStorage
+                localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos));
+
+                console.log("Photo deleted successfully.");
+                loadPhotosFromLocalStorage(); // Reload the list
+            
+            } catch (error) {
+                console.error("Error deleting photo:", error);
+                button.disabled = false;
+                button.innerHTML = `Delete`;
+            }
+        }
+
+        // --- Helper Functions ---
+
+        /**
+         * Resizes an image file to a fixed dimension, maintaining aspect ratio (cover).
+         * @param {File} file The image file.
+         * @param {number} width The target width.
+         * @param {number} height The target height.
+         * @param {number} quality The JPEG quality (0 to 1).
+         * @returns {Promise<string>} A promise that resolves with the new data URL.
+         */
+        function resizeImage(file, width, height, quality) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+
+                        // Set a white background for JPEGs (in case of transparent PNGs)
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.fillRect(0, 0, width, height);
+
+                        // Calculate "object-fit: cover" dimensions
+                        const imgRatio = img.width / img.height;
+                        const canvasRatio = width / height;
+                        
+                        let sWidth, sHeight, sx, sy;
+
+                        if (imgRatio > canvasRatio) {
+                            // Image is wider than canvas
+                            sHeight = img.height;
+                            sWidth = img.height * canvasRatio;
+                            sx = (img.width - sWidth) / 2;
+                            sy = 0;
+                        } else {
+                            // Image is taller than or same aspect as canvas
+                            sWidth = img.width;
+                            sHeight = img.width / canvasRatio;
+                            sx = 0;
+                            sy = (img.height - sHeight) / 2;
+                        }
+
+                        // Draw the image onto the canvas
+                        ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, width, height);
+                        
+                        // Get the data URL as a compressed JPEG
+                        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        resolve(dataUrl);
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /**
+         * Gets all photos from localStorage
+         * @returns {Array} An array of photo objects
+         */
+        function getPhotos() {
+            const photosString = localStorage.getItem(PHOTOS_KEY);
+            return photosString ? JSON.parse(photosString) : [];
+        }
+
+        /**
+         * Reads a File object and converts it to a Base64 Data URL
+         * @param {File} file The file from the input
+         * @returns {Promise<string>} A promise that resolves with the data URL
+         */
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    resolve(event.target.result);
+                };
+                reader.onerror = (error) => {
+                    reject(error);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+
+        // Start the app
+        document.addEventListener('DOMContentLoaded', initAdmin);
+    </script>
+
+</body>
+</html>
+
