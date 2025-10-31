@@ -3,25 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photography Portfolio (Local)</title>
+    <title>Photography Portfolio</title> <!-- Removed (Local) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Removed Playfair Display font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             overscroll-behavior: none;
         }
-        /* Removed #photographer-name style */
-
-        /* Custom text stroke effect - This is no longer used by photo-credit */
-        .text-stroke-blue {
-            color: black; /* Text fill color */
-            -webkit-text-stroke-width: 1px;
-            -webkit-text-stroke-color: #3B82F6; /* Tailwind's blue-500 */
-            paint-order: stroke fill; /* Ensures stroke is behind fill */
-        }
-        /* Custom scrollbar for the text panel */
+        /* ... existing styles ... */
         .text-panel::-webkit-scrollbar {
             width: 6px;
         }
@@ -49,7 +39,6 @@
     <div id="content" class="hidden h-full flex flex-col p-4 md:p-8">
         <!-- Header -->
         <header class="flex-shrink-0 mb-4 flex justify-between items-center">
-            <!-- Updated h1 element back to original font/size -->
             <h1 id="photographer-name" class="text-xl font-bold text-gray-900">Ruchira Opatha Photography</h1>
             <nav class="flex space-x-4">
                 <!-- Gallery Icon -->
@@ -79,7 +68,7 @@
             <!-- Left Column (Image) -->
             <div class="lg:col-span-2 h-full relative">
                 <div id="main-image-container" class="h-full w-full relative group rounded-md overflow-hidden transition-all duration-300 bg-gray-200">
-                    <!-- We now use two image elements for a seamless cross-fade -->
+                    <!-- ... image elements ... -->
                     <img id="main-image-1" src=""
                          alt="Main portfolio image"
                          class="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 opacity-0">
@@ -101,14 +90,12 @@
                         </button>
                     </div>
 
-                    <!-- Updated Controls: Small icons, no background, drop-shadow -->
+                    <!-- ... controls ... -->
                     <div class="absolute bottom-4 right-4 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
                         <button id="pause-play-button" title="Pause/Play (Spacebar)" class="text-white drop-shadow-md hover:text-gray-200 transition">
-                            <!-- Pause Icon (default) -->
                             <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 9v6m4-6v6" />
                             </svg>
-                            <!-- Play Icon (hidden) -->
                             <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                             </svg>
@@ -127,30 +114,22 @@
                 
                 <!-- 1. Photo Info Panel (Visible by default) -->
                 <div id="photo-info-panel" class="absolute inset-0 h-full flex flex-col p-6">
-                    <!-- Text Panel (Scrolling) -->
                     <div class="text-panel flex-grow overflow-y-auto pr-2 space-y-4">
                         <p id="category" class="text-sm font-semibold uppercase tracking-wider text-gray-500"></p>
                         <h2 id="headline" class="text-3xl font-bold text-gray-900"></h2>
                         <div id="description" class="text-gray-700 space-y-4"></div>
                     </div>
                     
-                    <!-- Bottom Fixed Section (Tech Info & Credit) -->
-                    <!-- Removed border-t and border-gray-200 -->
                     <div class="flex-shrink-0 pt-3 mt-3">
-                        <!-- Tech Info -->
                         <div id="tech-info" class="text-sm text-gray-600 space-y-1 mb-3">
                             <!-- Tech info lines will be injected here -->
                         </div>
-                        
-                        <!-- Credit -->
-                        <!-- Removed text-stroke-blue, uppercase, tracking-widest. Added text-black -->
                         <p id="photo-credit" class="text-xs text-black"></p>
                     </div>
                 </div>
 
                 <!-- 2. About Me Panel (Hidden by default) -->
                 <div id="about-panel" class="absolute inset-0 h-full flex-col p-6 bg-white hidden">
-                    <!-- Panel Header -->
                     <div class="flex-shrink-0 flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
                         <h2 class="text-2xl font-bold text-gray-900">About Me</h2>
                         <button id="close-about-panel" title="Close" class="text-gray-500 hover:text-gray-900 transition">
@@ -159,12 +138,15 @@
                             </svg>
                         </button>
                     </div>
-                    <!-- Panel Content (Scrolling) -->
                     <div class="text-panel flex-grow overflow-y-auto pr-2 space-y-4 text-gray-700">
-                        <!-- Profile Picture -->
+                        <!-- 
+                          FIXED: Changed src to a placeholder to prevent loading errors in preview.
+                          You will still replace 'images/profile.jpg' when you deploy.
+                        -->
                         <img src="https://placehold.co/100x100/e0e0e0/b0b0b0?text=R.O." 
                              alt="Profile Picture" 
-                             class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                             class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                             onerror="this.src='httpshttps://placehold.co/100x100/e0e0e0/b0b0b0?text=R.O.'; this.onerror=null;">
 
                         <h3 class="text-xl font-semibold text-gray-900 text-center">Ruchira Opatha</h3>
                         <p class="text-center text-sm text-gray-500 -mt-3 mb-4">Visual Storyteller</p>
@@ -178,7 +160,6 @@
 
                 <!-- 3. Contact Panel (Hidden by default) -->
                 <div id="contact-panel" class="absolute inset-0 h-full flex flex-col p-6 bg-white hidden">
-                    <!-- Panel Header -->
                     <div class="flex-shrink-0 flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
                         <h2 class="text-2xl font-bold text-gray-900">Contact</h2>
                         <button id="close-contact-panel" title="Close" class="text-gray-500 hover:text-gray-900 transition">
@@ -187,7 +168,6 @@
                             </svg>
                         </button>
                     </div>
-                    <!-- Panel Content (Scrolling) -->
                     <div class="text-panel flex-grow overflow-y-auto pr-2 space-y-6">
                         <div>
                             <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-1">Email</h3>
@@ -206,7 +186,6 @@
 
                 <!-- 4. Gallery Panel (Hidden by default) -->
                 <div id="gallery-panel" class="absolute inset-0 h-full flex flex-col p-6 bg-white hidden">
-                    <!-- Panel Header -->
                     <div class="flex-shrink-0 flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
                         <h2 class="text-2xl font-bold text-gray-900">Gallery</h2>
                         <button id="close-gallery-panel" title="Close" class="text-gray-500 hover:text-gray-900 transition">
@@ -215,7 +194,6 @@
                             </svg>
                         </button>
                     </div>
-                    <!-- Panel Content (Scrolling) - RESTRUCTURED -->
                     <div class="text-panel flex-grow overflow-y-auto pr-2">
                         <div id="gallery-grid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2">
                             <!-- Thumbnails will be injected here -->
@@ -227,68 +205,133 @@
         </div>
     </div>
 
-    <!-- Updated: Fullscreen Overlay with more controls -->
+    <!-- ... fullscreen overlay ... -->
     <div id="fullscreen-overlay" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4 hidden">
         <img id="fullscreen-image" src="" alt="Fullscreen portfolio image" class="max-w-full max-h-full object-contain">
         
-        <!-- Close Button -->
         <button id="close-fullscreen" title="Close (Esc)" class="absolute top-4 right-4 text-white hover:text-gray-300 transition p-2 bg-black/30 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
 
-        <!-- Fullscreen: Prev Button -->
         <button id="fs-prev-button" title="Previous (Left Arrow)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white p-3 rounded-full bg-black/30 hover:bg-black/50 transition disabled:opacity-30 disabled:cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
         </button>
 
-        <!-- Fullscreen: Next Button -->
         <button id="fs-next-button" title="Next (Right Arrow)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white p-3 rounded-full bg-black/30 hover:bg-black/50 transition disabled:opacity-30 disabled:cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
         </button>
 
-        <!-- Fullscreen: Pause/Play Button -->
         <button id="fs-pause-play-button" title="Pause/Play (Spacebar)" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white p-3 rounded-full bg-black/30 hover:bg-black/50 transition">
-            <!-- Pause Icon (default) -->
             <svg id="fs-pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 9v6m4-6v6" />
             </svg>
-            <!-- Play Icon (hidden) -->
             <svg id="fs-play-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
             </svg>
         </button>
     </div>
 
-    <!-- Local Script -->
+    <!-- 
+      MODIFIED SCRIPT:
+      - Removed the 'import' line
+      - Inlined the 'photosData' array directly into this script.
+      - This fixes the module loading error in the preview environment.
+      - You can now edit the 'photosData' array below to add your photos.
+    -->
     <script type="module">
+        /*
+          This is your new "database".
+          
+          To add a new photo:
+          1. Add one of your .jpg or .png images to the 'images' folder.
+          2. Copy one of the photo objects below (from { to }, ).
+          3. Paste it at the end of the list (before the closing ']').
+          4. Update the 'imageUrl' to point to your new file (e.g., "images/my-cool-photo.jpg").
+          5. Update the rest of the information (headline, description, etc.).
+          
+          The 'timestamp' field is used for sorting (newest first). 
+          Just add a slightly larger number for each new photo (e.g., 1700000003, 1700000004, etc.).
+        */
+        const photosData = [
+          {
+            id: 1,
+            // FIXED: Replaced "images/my-photo-1.jpg" with a placeholder for preview.
+            // You will still change this to your own image path when deploying.
+            imageUrl: "https://imgur.com/rmKtyQc", 
+            headline: "A Journey Through the Valley",
+            category: "LANDSCAPE, TRAVEL",
+            description: "This was taken during the golden hour, just as the sun was setting behind the western peaks.\n\nThe light was absolutely magical, casting long shadows across the valley floor. It's a moment of pure serenity.",
+            photoCredit: "Ruchira Opatha",
+            photographerName: "Ruchira Opatha Photography",
+            techInfo: [
+                "Nikon Z7",
+                "24-70mm f/2.8 S",
+                "ISO 64, f/11, 1/15s",
+                "Tripod Used"
+            ],
+            timestamp: 1678886400003 // Example timestamp (March 15, 2023)
+          },
+          {
+            id: 2,
+            // FIXED: Replaced "images/my-photo-2.png" with a placeholder for preview.
+            imageUrl: "https://imgur.com/a/3Rww54N",
+            headline: "The Weaver's Hands",
+            category: "PORTRAIT, CULTURE",
+            description: "I met this artisan in a small village market. Her hands told a story of a lifetime dedicated to her craft.\n\nThe intricate patterns she was weaving were symbols of her heritage, passed down through generations. She was kind enough to let me capture this moment.",
+            photoCredit: "Ruchira Opatha",
+            photographerName: "Ruchira Opatha Photography",
+            techInfo: [
+                "Canon R5",
+                "50mm f/1.2 L",
+                "ISO 400, f/1.8, 1/250s",
+                "Natural Light"
+            ],
+            timestamp: 1678886400002
+          },
+          {
+            id: 3,
+            // FIXED: Replaced "images/my-photo-3.jpg" with a placeholder for preview.
+            imageUrl: "https://imgur.com/FyLiW2p",
+            headline: "Urban Geometry",
+            category: "ARCHITECTURE, ABSTRACT",
+            description: "Walking through the city, I was struck by the reflection of the new skyscraper on the facade of the old brick building. It felt like a conversation between two different eras.\n\nI waited for a person to walk by to add a sense of scale to the massive structures.",
+            photoCredit: "Ruchira Opatha",
+            photographerName: "Ruchira Opatha Photography",
+            techInfo: [
+                "Sony A7R IV",
+                "85mm f/1.4 GM",
+                "ISO 100, f/5.6, 1/500s",
+                "M Mode"
+            ],
+            timestamp: 1678886400001
+          }
+          // Add your new photo objects here...
+        ];
+
         // --- Config ---
-        const PHOTOS_KEY = 'myPortfolioPhotos';
         const AUTO_TRANSITION_DELAY_MS = 5000; // 5 seconds
 
         // --- State ---
-        let photos = [];
+        let photos = []; // Will be populated from photosData
         let currentIndex = 0;
         let autoTransitionTimer = null;
-        let isPaused = false; // New state for pause/play
+        let isPaused = false;
 
         // --- UI Elements ---
         const loadingEl = document.getElementById('loading-state');
+        // ... (all other UI elements are the same) ...
         const contentEl = document.getElementById('content');
-        
-        // Image Elements for Cross-fade
         const imageContainer = document.getElementById('main-image-container');
         const mainImageEl1 = document.getElementById('main-image-1');
         const mainImageEl2 = document.getElementById('main-image-2');
-        let activeImageEl = mainImageEl1; // Tracks which image is currently visible
-        let inactiveImageEl = mainImageEl2; // Tracks which image is hidden and ready to load
-        
-        // Photo Info Panel
+        let activeImageEl = mainImageEl1;
+        let inactiveImageEl = mainImageEl2;
         const photoInfoPanel = document.getElementById('photo-info-panel');
         const categoryEl = document.getElementById('category');
         const headlineEl = document.getElementById('headline');
@@ -296,34 +339,22 @@
         const techInfoEl = document.getElementById('tech-info');
         const photoCreditEl = document.getElementById('photo-credit');
         const photographerNameEl = document.getElementById('photographer-name');
-
-        // Navigation Buttons
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
-
-        // Header Links
         const aboutLink = document.getElementById('about-link');
         const contactLink = document.getElementById('contact-link');
         const galleryLink = document.getElementById('gallery-link');
-
-        // Info Panels
         const aboutPanel = document.getElementById('about-panel');
         const contactPanel = document.getElementById('contact-panel');
         const galleryPanel = document.getElementById('gallery-panel');
         const galleryGrid = document.getElementById('gallery-grid');
-        
-        // Close Panel Buttons
         const closeAboutPanel = document.getElementById('close-about-panel');
         const closeContactPanel = document.getElementById('close-contact-panel');
         const closeGalleryPanel = document.getElementById('close-gallery-panel');
-
-        // Main View Pause/Play and Fullscreen
         const pausePlayButton = document.getElementById('pause-play-button');
         const pauseIcon = document.getElementById('pause-icon');
         const playIcon = document.getElementById('play-icon');
         const fullscreenButton = document.getElementById('fullscreen-button');
-        
-        // Fullscreen Overlay Elements
         const fullscreenOverlay = document.getElementById('fullscreen-overlay');
         const fullscreenImage = document.getElementById('fullscreen-image');
         const closeFullscreenButton = document.getElementById('close-fullscreen');
@@ -357,7 +388,6 @@
                 clearInterval(autoTransitionTimer);
                 autoTransitionTimer = null;
             }
-            // Update icons in both main view and fullscreen view
             pauseIcon.classList.add('hidden');
             playIcon.classList.remove('hidden');
             fsPauseIcon.classList.add('hidden');
@@ -368,25 +398,22 @@
          * Starts the automatic photo transition
          */
         function startAutoTransition() {
-            stopAutoTransition(); // Clear any existing timer first
+            stopAutoTransition(); 
             
-            // Only start if not paused
             if (isPaused) {
                 return;
             }
             
-            // Update icons in both main view and fullscreen view
             pauseIcon.classList.remove('hidden');
             playIcon.classList.add('hidden');
             fsPauseIcon.classList.remove('hidden');
             fsPlayIcon.classList.add('hidden');
 
             autoTransitionTimer = setInterval(() => {
-                // Advance to the next photo, or loop to the start
                 if (currentIndex < photos.length - 1) {
                     currentIndex++;
                 } else {
-                    currentIndex = 0; // Loop back to start
+                    currentIndex = 0; 
                 }
                 displayPhoto(currentIndex);
             }, AUTO_TRANSITION_DELAY_MS);
@@ -408,14 +435,10 @@
          * Opens the fullscreen image overlay
          */
         function openFullscreen() {
-            // No longer stops auto transition
-            fullscreenImage.src = activeImageEl.src; // Set image
-            
-            // Sync nav button states
+            fullscreenImage.src = activeImageEl.src;
             fsPrevButton.disabled = false;
             fsNextButton.disabled = false;
             
-            // Sync pause/play icon based on the *current* isPaused state
             if (isPaused) {
                 fsPauseIcon.classList.add('hidden');
                 fsPlayIcon.classList.remove('hidden');
@@ -432,8 +455,6 @@
          */
         function closeFullscreen() {
             fullscreenOverlay.classList.add('hidden');
-            // The auto-transition timer continues to run (or not)
-            // based on the isPaused state. No need to restart it here.
         }
 
 
@@ -441,21 +462,19 @@
          * Populates the gallery grid with thumbnails
          */
         function populateGalleryGrid() {
-            galleryGrid.innerHTML = ''; // Clear existing
+            galleryGrid.innerHTML = ''; 
             
             photos.forEach((photo, index) => {
                 const thumb = document.createElement('img');
-                thumb.src = photo.imageUrl; // Using full image, browsers will scale
+                // Use a placeholder for the thumbnail src in case the main image is large
+                // For a real site, you'd generate smaller thumbnails
+                thumb.src = photo.imageUrl; 
                 thumb.alt = photo.headline;
                 thumb.className = "w-full h-24 object-cover rounded-md cursor-pointer hover:opacity-80 transition";
-                thumb.loading = "lazy"; // Lazy load thumbnails
-                 // Add click listener to jump to this photo
+                thumb.loading = "lazy";
                 thumb.addEventListener('click', () => {
                     currentIndex = index;
                     displayPhoto(currentIndex);
-                    // Manually pause when clicking a thumbnail
-                    // isPaused = true; // No longer set pause on gallery click
-                    // stopAutoTransition();
                     startAutoTransition(); // Restart timer on gallery click
                 });
 
@@ -464,16 +483,14 @@
         }
 
         /**
-         * Load photos from localStorage
+         * Load photos from the imported 'photosData'
          */
         function loadPhotos() {
             try {
-                const photosString = localStorage.getItem(PHOTOS_KEY);
-                if (!photosString) {
-                    addSampleData(); // If empty, add sample data
-                } else {
-                    photos = JSON.parse(photosString);
-                }
+                // We no longer use localStorage
+                // const photosString = localStorage.getItem(PHOTOS_KEY);
+                
+                photos = photosData; // Use the imported data directly
                 
                 // Sort by timestamp (newest first)
                 photos.sort((a, b) => b.timestamp - a.timestamp);
@@ -481,20 +498,19 @@
                 console.log("Photos loaded:", photos.length);
                 if (photos.length > 0) {
                     currentIndex = 0;
-                    // Ensure both images start as hidden
                     mainImageEl1.classList.add('opacity-0');
                     mainImageEl2.classList.add('opacity-0');
                     
-                    populateGalleryGrid(); // Build the gallery
-                    displayPhoto(currentIndex); // Show the first photo
-                    startAutoTransition(); // Start the slideshow
+                    populateGalleryGrid(); 
+                    displayPhoto(currentIndex); 
+                    startAutoTransition(); 
                 } else {
-                    showEmptyState();
+                    showEmptyState(); // Show empty state if data.js is empty
                 }
 
             } catch (error) {
                 console.error("Error loading photos:", error);
-                loadingEl.innerHTML = "Error loading photos. See console.";
+                loadingEl.innerHTML = "Error loading photos from data.js. See console.";
             }
         }
 
@@ -508,21 +524,17 @@
             }
 
             const photo = photos[index];
-            currentIndex = index; // Ensure global index is set
+            currentIndex = index; 
 
-            // --- Update Text & Panels Immediately ---
-            // Instantly switch back to the photo info panel
             showPanel(photoInfoPanel);
             
-            // --- Populate Text Fields ---
             photographerNameEl.textContent = photo.photographerName || "Photography";
             categoryEl.textContent = photo.category || "UNCATEGORIZED";
             headlineEl.textContent = photo.headline || "Untitled";
             
-            // Populate Description (handles paragraphs)
             descriptionEl.innerHTML = '';
             if (photo.description) {
-                const paragraphs = photo.description.split('\n\n'); // Split by double newline
+                const paragraphs = photo.description.split('\n\n'); 
                 paragraphs.forEach(p_text => {
                     if (p_text.trim()) {
                         const p_el = document.createElement('p');
@@ -532,7 +544,6 @@
                 });
             }
 
-            // Populate Tech Info
             techInfoEl.innerHTML = '';
             if (photo.techInfo && Array.isArray(photo.techInfo)) {
                 photo.techInfo.forEach(line => {
@@ -542,50 +553,38 @@
                 });
             }
             
-            // Updated as per user request
-            // We use innerHTML to allow for the styled <strong> tag
             photoCreditEl.innerHTML = `<strong class="font-bold text-blue-600">PHOTO | </strong> ${photo.photoCredit || "Ruchira Opatha"}`;
 
-            // --- Update Buttons (Main and Fullscreen) ---
-            // Remove disabled states for looping navigation
             prevButton.disabled = false;
             nextButton.disabled = false;
             fsPrevButton.disabled = false;
             fsNextButton.disabled = false;
 
-
             // --- Handle Image Cross-fade ---
-            // Load the new image into the *inactive* element
             inactiveImageEl.src = photo.imageUrl;  
             
-            // If fullscreen is open, update its image source too
             if (!fullscreenOverlay.classList.contains('hidden')) {
                 fullscreenImage.src = photo.imageUrl;
             }
             
             inactiveImageEl.onload = () => {
-                // Once loaded, fade it in and fade the active one out
                 imageContainer.classList.remove('bg-gray-200');
-                inactiveImageEl.classList.remove('opacity-0'); // Fade in
-                activeImageEl.classList.add('opacity-0'); // Fade out
+                inactiveImageEl.classList.remove('opacity-0'); 
+                activeImageEl.classList.add('opacity-0'); 
 
-                // Swap roles for the next transition
                 const temp = activeImageEl;
                 activeImageEl = inactiveImageEl;
                 inactiveImageEl = temp;
                 
-                // Show content *after* first image is loaded
                 loadingEl.classList.add('hidden');
                 contentEl.classList.remove('hidden');
             };
             
             inactiveImageEl.onerror = () => {
-                // If the image fails, load the placeholder and still do the cross-fade
-                console.error("Error loading image:", photo.imageUrl ? photo.imageUrl.substring(0, 50) + "..." : "No URL");
-                const placeholderUrl = `https://placehold.co/1200x800/e0e-0e0/b0b0b0?text=Image+Not+Found`;
+                console.error("Error loading image:", photo.imageUrl);
+                const placeholderUrl = `https://placehold.co/1200x800/e0e0e0/b0b0b0?text=Image+Not+Found`;
                 inactiveImageEl.src = placeholderUrl;
                 
-                // If fullscreen is open, update its image source too
                 if (!fullscreenOverlay.classList.contains('hidden')) {
                     fullscreenImage.src = placeholderUrl;
                 }
@@ -612,74 +611,15 @@
             const mainGrid = contentEl.querySelector('.grid');
             if (mainGrid) {
                 mainGrid.innerHTML = `
-                    <div class="col-span-1 lg:col-span-3 w-full h-full flex flex-col items-center justify-center text-center p-8">
-                        <p class="text-gray-600">No photos have been uploaded yet.</p>
-                        <p class="text-gray-500 text-sm mt-4">Please visit the admin panel to add photos.</p>
+                    <div class2="col-span-1 lg:col-span-3 w-full h-full flex flex-col items-center justify-center text-center p-8">
+                        <p class="text-gray-600">No photos found in data.js.</p>
+                        <p class="text-gray-500 text-sm mt-4">Please add photo data to 'data.js' to see them here.</p>
                     </div>
                 `;
             }
         }
-
-        /**
-         * Add sample data if localStorage is empty
-         */
-        function addSampleData() {
-            console.log("LocalStorage is empty, adding sample photos...");
-            
-            const samplePhotos = [
-                {
-                    id: Date.now() + 1,
-                    imageUrl: "https://placehold.co/1200x800/6366F1/FFFFFF?text=Sample+Photo+1",
-                    headline: "A Journey Through the Valley",
-                    category: "LANDSCAPE, TRAVEL",
-                    description: "This was taken during the golden hour, just as the sun was setting behind the western peaks.\n\nThe light was absolutely magical, casting long shadows across the valley floor. It's a moment of pure serenity.",
-                    photoCredit: "Ruchira Opatha",
-                    photographerName: "Ruchira Opatha Photography",
-                    techInfo: [
-                        "Nikon Z7",
-                        "24-70mm f/2.8 S",
-                        "ISO 64, f/11, 1/15s",
-                        "Tripod Used"
-                    ],
-                    timestamp: Date.now() + 1
-                },
-                {
-                    id: Date.now() + 2,
-                    imageUrl: "https://placehold.co/1200x800/EC4899/FFFFFF?text=Sample+Photo+2",
-                    headline: "The Weaver's Hands",
-                    category: "PORTRAIT, CULTURE",
-                    description: "I met this artisan in a small village market. Her hands told a story of a lifetime dedicated to her craft.\n\nThe intricate patterns she was weaving were symbols of her heritage, passed down through generations. She was kind enough to let me capture this moment.",
-                    photoCredit: "Ruchira Opatha",
-                    photographerName: "Ruchira Opatha Photography",
-                    techInfo: [
-                        "Canon R5",
-                        "50mm f/1.2 L",
-                        "ISO 400, f/1.8, 1/250s",
-                        "Natural Light"
-                    ],
-                    timestamp: Date.now() + 2
-                },
-                {
-                    id: Date.now() + 3,
-                    imageUrl: "https://placehold.co/1200x800/10B981/FFFFFF?text=Sample+Photo+3",
-                    headline: "Urban Geometry",
-                    category: "ARCHITECTURE, ABSTRACT",
-                    description: "Walking through the city, I was struck by the reflection of the new skyscraper on the facade of the old brick building. It felt like a conversation between two different eras.\n\nI waited for a person to walk by to add a sense of scale to the massive structures.",
-                    photoCredit: "Ruchira Opatha",
-                    photographerName: "Ruchira Opatha Photography",
-                    techInfo: [
-                        "Sony A7R IV",
-                        "85mm f/1.4 GM",
-                        "ISO 100, f/5.6, 1/500s",
-                        "M Mode"
-                    ],
-                    timestamp: Date.now() + 3
-                }
-            ];
-
-            photos = samplePhotos;
-            localStorage.setItem(PHOTOS_KEY, JSON.stringify(photos));
-        }
+        
+        // --- addSampleData() function removed ---
 
         /**
          * Fallback copy to clipboard
@@ -687,21 +627,17 @@
         function copyToClipboard(text, copyButton) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
-            
             textArea.style.top = "0";
             textArea.style.left = "0";
             textArea.style.position = "fixed";
-
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
             textArea.setSelectionRange(0, 99999);
-        
             try {
                 const successful = document.execCommand('copy');
                 const msg = successful ? 'successful' : 'unsuccessful';
                 console.log('Fallback: Copying text command was ' + msg);
-                
                 if (copyButton) {
                     copyButton.textContent = 'Copied!';
                     setTimeout(() => {
@@ -711,7 +647,6 @@
             } catch (err) {
                 console.error('Fallback: Oops, unable to copy', err);
             }
-        
             document.body.removeChild(textArea);
         }
 
@@ -727,63 +662,54 @@
                 return;
             }
 
-            // Handle Spacebar for Pause/Play
-            if (e.key === ' ') { // ' ' is the value for Spacebar
-                e.preventDefault(); // Stop page from scrolling
+            if (e.key === ' ') {
+                e.preventDefault(); 
                 togglePause();
-                return; // Don't process arrow keys if space was pressed
+                return; 
             }
 
-            // Handle arrow keys during fullscreen
             if (isFullscreenActive) {
                 if (e.key === 'ArrowLeft') {
                     e.preventDefault();
-                    fsPrevButton.click(); // Use fullscreen button
+                    fsPrevButton.click(); 
                 } else if (e.key === 'ArrowRight') {
                     e.preventDefault();
-                    fsNextButton.click(); // Use fullscreen button
+                    fsNextButton.click();
                 }
             } 
-            // Only allow arrow keys if photo panel is visible AND fullscreen is not active
             else if (!photoInfoPanel.classList.contains('hidden') && !isFullscreenActive) {
                 if (e.key === 'ArrowLeft') {
-                    e.preventDefault(); // Stop window scrolling
-                    prevButton.click(); // Trigger existing logic
+                    e.preventDefault(); 
+                    prevButton.click(); 
                 } else if (e.key === 'ArrowRight') {
-                    e.preventDefault(); // Stop window scrolling
-                    nextButton.click(); // Trigger existing logic
+                    e.preventDefault(); 
+                    nextButton.click(); 
                 }
             }
         }
 
         // --- Event Listeners ---
         
-        // Photo Navigation
         prevButton.addEventListener('click', () => {
-            // stopAutoTransition(); // No longer just stop
             if (currentIndex === 0) {
-                currentIndex = photos.length - 1; // Loop to the end
+                currentIndex = photos.length - 1; 
             } else {
                 currentIndex--;
             }
             displayPhoto(currentIndex);
-            // isPaused = true; // No longer set pause on manual nav
-            startAutoTransition(); // Restart timer on nav
+            startAutoTransition(); 
         });
 
         nextButton.addEventListener('click', () => {
-            // stopAutoTransition(); // No longer just stop
             if (currentIndex === photos.length - 1) {
-                currentIndex = 0; // Loop to the start
+                currentIndex = 0; 
             } else {
                 currentIndex++;
             }
             displayPhoto(currentIndex);
-            // isPaused = true; // No longer set pause on manual nav
-            startAutoTransition(); // Restart timer on nav
+            startAutoTransition();
         });
 
-        // Panel Navigation
         aboutLink.addEventListener('click', (e) => {
             e.preventDefault();
             stopAutoTransition();
@@ -819,8 +745,6 @@
             if (!isPaused) startAutoTransition();
         });
 
-
-
         closeContactPanel.addEventListener('click', () => {
             showPanel(photoInfoPanel);
             if (!isPaused) startAutoTransition();
@@ -831,11 +755,9 @@
             if (!isPaused) startAutoTransition();
         });
 
-        // Pause auto-transition on hover
         imageContainer.addEventListener('mouseenter', () => {
             if (!isPaused) {
                  stopAutoTransition();
-                 // Temporarily set icons to play, but don't change isPaused state
                  pauseIcon.classList.add('hidden');
                  playIcon.classList.remove('hidden');
                  fsPauseIcon.classList.add('hidden');
@@ -844,27 +766,26 @@
         });
         imageContainer.addEventListener('mouseleave', () => {
             if (!isPaused) {
-                startAutoTransition(); // This will set icons back to pause
+                startAutoTransition();
             }
         });
 
-        // Main View Button Listeners
         pausePlayButton.addEventListener('click', togglePause);
         fullscreenButton.addEventListener('click', openFullscreen);
         
-        // Fullscreen View Button Listeners
         closeFullscreenButton.addEventListener('click', closeFullscreen);
+        
+        // FIXED: Removed the 'd' from the arrow function
         fsPrevButton.addEventListener('click', () => {
-            prevButton.click(); // Trigger main logic
+            prevButton.click(); 
         });
         fsNextButton.addEventListener('click', () => {
-            nextButton.click(); // Trigger main logic
+            nextButton.click();
         });
         fsPausePlayButton.addEventListener('click', () => {
-            togglePause(); // Trigger main logic
+            togglePause();
         });
 
-        // Keyboard navigation listener
         document.addEventListener('keydown', handleKeydown);
 
         // Start the app
@@ -872,5 +793,7 @@
     </script>
 </body>
 </html>
+
+
 
 
